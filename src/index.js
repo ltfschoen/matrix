@@ -18,7 +18,46 @@ client.login(
   },
   (err, data) => {
     if (err) { console.log('Error logging into matrix:', err); }
-
     console.log(`Logged in ${data.user_id} on device ${data.device_id}`);
+
+    client.startClient(0);
+    console.log('Started client');
+
+    /**
+     * Event listeners for message events emitted from a room's timeline
+     */
+    client.on('Room.timeline', function(event, room, toStartOfTimeline) {
+      if (event.getType() !== 'm.room.message') {
+        return; // only use messages
+      }
+
+      console.log('Received event: ', event.event);
+      console.log('Received event sender: ', event.sender);
+    });
+
+    /**
+     * Wait until sync state is 'PREPARED' before sending messages to the room.
+     */
+    client.once('sync', function(state, prevState, res) {
+      if(state === 'PREPARED') {
+        console.log('Detected that client sync state is prepared.');
+
+        const content = {
+          'body': 'message text',
+          'msgtype': 'm.text'
+        };
+
+        const roomId = '!KPhFUARUOOHcIXayFS:matrix.parity.io';
+
+        client.sendEvent(roomId, 'm.room.message', content, '', (err, res) => {
+          if (err) { console.log(err) };
+
+          console.log(`Sent message with event id ${res.event_id}`);
+        });
+      } else {
+        console.log('Unable to establish client sync state', state);
+        process.exit(1);
+      }
+    });
   }
 );
