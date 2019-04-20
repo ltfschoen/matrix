@@ -1,6 +1,6 @@
-const {
-  messages
-} = require('./constants');
+// const {
+//   messages
+// } = require('./constants');
 
 function handleNewMember(
   event,
@@ -9,27 +9,27 @@ function handleNewMember(
   client,
   privateRooms
 ) {
-  if (
-    event.event.membership === 'join' &&
-    (!event.event.unsigned.prev_content ||
-      event.event.unsigned.prev_content.membership === 'invite')
-  ) {
-    // const user = event.getSender();
-    // const room = event.getRoomId();
+  // if (
+  //   event.event.membership === 'join' &&
+  //   (!event.event.unsigned.prev_content ||
+  //     event.event.unsigned.prev_content.membership === 'invite')
+  // ) {
+  //   const user = event.getSender();
+  //   const room = event.getRoomId();
 
-    // let roomMessages = messages[room];
+  //   let roomMessages = messages[room];
 
-    // if (roomMessages && checkUser(user)) {
-    //   handleWelcome(
-    //     room,
-    //     user,
-    //     client,
-    //     privateRooms,
-    //     roomMessages.externalMsg,
-    //     roomMessages.internalMsg
-    //   );
-    // }
-  }
+  //   if (roomMessages && checkUser(user)) {
+  //     handleWelcome(
+  //       room,
+  //       user,
+  //       client,
+  //       privateRooms,
+  //       roomMessages.externalMsg,
+  //       roomMessages.internalMsg
+  //     );
+  //   }
+  // }
 };
 
 // function handleWelcome(

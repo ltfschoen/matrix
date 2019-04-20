@@ -23,7 +23,8 @@ class Bot extends EventEmitter {
   }
 
   handleNewMember() {
-    handleNewMember(this);
+    return;
+    // handleNewMember(this);
   }
 }
 

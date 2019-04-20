@@ -42,6 +42,8 @@ client.login(
 
       const bot = new Bot(options);
 
+      const privateRooms = {};
+
       bot.handleNewMember(
         event,
         room,
