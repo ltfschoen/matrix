@@ -1,6 +1,7 @@
-require('dotenv').config();
+import { config as dotenvConfig } from 'dotenv';
+import sdk from 'matrix-js-sdk';
+dotenvConfig();
 
-const sdk = require('matrix-js-sdk');
 const client = sdk.createClient(process.env.BASE_URL);
 
 client.publicRooms((err, data) => {
