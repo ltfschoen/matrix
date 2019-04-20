@@ -14,3 +14,7 @@ BASE_URL=https://<MATRIX_DOMAIN>:<MATRIX_PORT>
 ```
 yarn; yarn start
 ```
+
+# TODO
+
+* [ ] - Incorporate Polkadot best practice https://gitlab.com/Polkabot

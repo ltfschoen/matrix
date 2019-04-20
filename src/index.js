@@ -1,5 +1,9 @@
+
 import { config as dotenvConfig } from 'dotenv';
 import sdk from 'matrix-js-sdk';
+
+import Bot from './methods';
+
 dotenvConfig();
 
 const client = sdk.createClient(process.env.BASE_URL);
@@ -33,6 +37,18 @@ client.login(
 
       console.log('Received event: ', event.event);
       console.log('Received event sender: ', event.sender);
+
+      const options = {};
+
+      const bot = new Bot(options);
+
+      bot.handleNewMember(
+        event,
+        room,
+        toStartOfTimeline,
+        client,
+        privateRooms
+      );
     });
 
     /**
@@ -47,6 +63,7 @@ client.login(
           'msgtype': 'm.text'
         };
 
+        // Hard-code the room id where a bot has been setup for testing in Matrix Riot
         const roomId = '!KPhFUARUOOHcIXayFS:matrix.parity.io';
 
         client.sendEvent(roomId, 'm.room.message', content, '', (err, res) => {
