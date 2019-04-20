@@ -4,8 +4,8 @@
 * Add contents to .env file
 
 ```
-USERNAME=@luke:<MATRIX_DOMAIN>
-PASSWORD=mypassword
+MATRIX_USERNAME=@luke:<MATRIX_DOMAIN>
+MATRIX_PASSWORD=mypassword
 BASE_URL=https://<MATRIX_DOMAIN>:<MATRIX_PORT>
 ```
 
