@@ -1,0 +1,16 @@
+{
+  "name": "matrix-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "matrix-js-sdk": "^1.0.4"
+  },
+  "author": "Luke Schoen",
+  "license": "GPL-3.0"
+}
