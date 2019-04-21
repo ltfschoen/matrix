@@ -4,10 +4,13 @@ import { config as dotenvConfig } from 'dotenv';
 import sdk from 'matrix-js-sdk';
 
 import {
-  handleNewMember
-} from './methods/eventHandlers';
+  handleNewMemberEvent
+} from './methods/handleEvents';
 
 dotenvConfig();
+
+// Room id where a bot has been setup for testing in Matrix Riot
+const BOT_ROOM_ID = '!KPhFUARUOOHcIXayFS:matrix.parity.io';
 
 let hasCalledInitBot = false;
 
@@ -50,27 +53,25 @@ class BotApp extends EventEmitter {
         console.log('Started Matrix client');
     
         /**
-         * Event listeners for message events emitted from a room's timeline
+         * Event listeners for events emitted from a room's timeline.
+         *
+         * Messages `m.room.message`
+         * Membership changes `m.room.member`
          */
-        matrix.on('Room.timeline', function(event, room, toStartOfTimeline) {
-          if (event.getType() !== 'm.room.message') {
-            return; // only use messages
-          }
-    
+        matrix.on('Room.timeline', function(event) {
           console.log('Received event: ', event.event);
           console.log('Received event sender: ', event.sender);
-    
-          const privateRooms = {};
-    
-          that.handleNewMember();
+          console.log('Received event type: ', event.getType());
+          console.log('Received event membership: ', event.sender.membership);
+          console.log('Received event roomId: ', event.sender.roomId);
 
-          // bot.handleNewMember(
-          //   event,
-          //   room,
-          //   toStartOfTimeline,
-          //   this.matrix,
-          //   privateRooms
-          // );
+          if (
+            event.sender.roomId === BOT_ROOM_ID &&
+            event.getType() === 'm.room.member' &&
+            event.sender.membership === 'join') {
+            console.log('New member joined!');
+            that.handleNewMemberEvent(event);
+          }
         });
     
         /**
@@ -85,10 +86,7 @@ class BotApp extends EventEmitter {
               'msgtype': 'm.text'
             };
     
-            // Hard-code the room id where a bot has been setup for testing in Matrix Riot
-            const roomId = '!KPhFUARUOOHcIXayFS:matrix.parity.io';
-    
-            matrix.sendEvent(roomId, 'm.room.message', content, '', (err, res) => {
+            matrix.sendEvent(BOT_ROOM_ID, 'm.room.message', content, '', (err, res) => {
               if (err) { console.log(err) };
     
               console.log(`Sent message with event id ${res.event_id}`);
@@ -102,9 +100,8 @@ class BotApp extends EventEmitter {
     );
   }
   
-  handleNewMember() {
-    return;
-    // handleNewMember(this);
+  handleNewMemberEvent(event) {
+    handleNewMemberEvent(event, this.matrix);
   }
 }
 
